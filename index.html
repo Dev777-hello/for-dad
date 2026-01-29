@@ -59,7 +59,6 @@
         h1 { font-size: 1.8rem; margin-bottom: 10px; letter-spacing: 2px; }
         p { font-size: 0.9rem; color: #aaa; margin-bottom: 25px; }
 
-        /* The Progress Bar (The "Backend" Logic Visualization) */
         .progress-container {
             width: 100%;
             height: 8px;
@@ -116,8 +115,9 @@
 
     <div class="container" id="main-card">
         <div id="setup-phase">
+            <div id="clock" style="font-size: 1.5rem; margin-bottom: 20px; color: var(--primary);">00:00:00</div>
             <h1>SYSTEM LOCK</h1>
-            <p>Authentication required to access Birthday_Gift.zip</p>
+            <p>Authentication required for Dad_v49.0</p>
             <button class="btn" onclick="startSystemUpgrade()">Authorize Access</button>
             <div class="log-text" id="log">Status: Awaiting Input...</div>
         </div>
@@ -138,20 +138,30 @@
     </div>
 
     <script>
-        // Logic (The "Brain")
+        // Clock Logic
+        function updateClock() {
+            const now = new Date();
+            const clockElement = document.getElementById('clock');
+            if(clockElement) {
+                clockElement.innerText = now.toLocaleTimeString();
+            }
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // System Logic
         function startSystemUpgrade() {
             const btn = document.querySelector('.btn');
             const log = document.getElementById('log');
             const pContainer = document.getElementById('p-container');
             const pBar = document.getElementById('p-bar');
-            const setupPhase = document.getElementById('setup-phase');
-            const finalMsg = document.getElementById('final-msg');
+            const clock = document.getElementById('clock');
 
-            // 1. UI Transition
+            // UI Transition
             btn.style.display = 'none';
+            if(clock) clock.style.display = 'none';
             pContainer.style.display = 'block';
 
-            // 2. Simulated Backend Tasks (The "Impressive" part)
             const logs = [
                 "Establishing secure connection...",
                 "Bypassing firewall v48.0...",
@@ -168,7 +178,6 @@
                 progress += 1;
                 pBar.style.width = progress + "%";
 
-                // Update logs periodically
                 if (progress % 18 === 0 && logIndex < logs.length) {
                     log.innerText = "Status: " + logs[logIndex];
                     logIndex++;
@@ -178,7 +187,7 @@
                     clearInterval(interval);
                     completeAccess();
                 }
-            }, 50); // Fast enough to be exciting, slow enough to look "real"
+            }, 50);
         }
 
         function completeAccess() {
@@ -186,9 +195,7 @@
             document.getElementById('p-container').style.display = 'none';
             document.getElementById('final-msg').style.display = 'block';
             
-            // "Backend" Record: Save the login time
             localStorage.setItem('last_access', new Date().toLocaleString());
-            console.log("Access Logged at: " + localStorage.getItem('last_access'));
         }
     </script>
 </body>
