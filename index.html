@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dad v49.0 | Secure Access</title>
+    <style>
+        :root {
+            --bg: #0a0a0c;
+            --primary: #00f2ff; /* Cyber Blue */
+            --accent: #7000ff;  /* Deep Purple */
+            --text: #ffffff;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: var(--bg);
+            font-family: 'Courier New', monospace;
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* Animated Background Gradients */
+        .bg-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: var(--accent);
+            filter: blur(150px);
+            opacity: 0.3;
+            z-index: 0;
+            animation: move 10s infinite alternate;
+        }
+
+        @keyframes move {
+            from { transform: translate(-50%, -50%); }
+            to { transform: translate(50%, 50%); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            width: 90%;
+            max-width: 400px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        h1 { font-size: 1.8rem; margin-bottom: 10px; letter-spacing: 2px; }
+        p { font-size: 0.9rem; color: #aaa; margin-bottom: 25px; }
+
+        /* The Progress Bar (The "Backend" Logic Visualization) */
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: #222;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.1s linear;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            border: none;
+            padding: 15px 30px;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 242, 255, 0.3);
+        }
+
+        .log-text {
+            font-size: 0.7rem;
+            color: var(--primary);
+            height: 20px;
+            margin-top: 10px;
+        }
+
+        #final-msg { display: none; animation: fadeIn 1s ease-in; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow"></div>
+
+    <div class="container" id="main-card">
+        <div id="setup-phase">
+            <h1>SYSTEM LOCK</h1>
+            <p>Authentication required to access Birthday_Gift.zip</p>
+            <button class="btn" onclick="startSystemUpgrade()">Authorize Access</button>
+            <div class="log-text" id="log">Status: Awaiting Input...</div>
+        </div>
+
+        <div class="progress-container" id="p-container">
+            <div class="progress-bar" id="p-bar"></div>
+        </div>
+
+        <div id="final-msg">
+            <h1 style="color: var(--primary);">ACCESS GRANTED!</h1>
+            <p style="color: white; font-size: 1.1rem;">Happy 49th Birthday, Dad!</p>
+            <div style="border-top: 1px solid #444; padding-top: 15px; margin-top: 15px;">
+                <p style="color: #00f2ff;">[Mom's Gift Initialized]</p>
+                <p style="color: #fff; font-style: italic;">"Hardware by Mom, Firmware by Me."</p>
+                <p style="font-size: 1.2rem; color: #ff007a; font-weight: bold;">OPEN THE BOX NOW! 🎁</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Logic (The "Brain")
+        function startSystemUpgrade() {
+            const btn = document.querySelector('.btn');
+            const log = document.getElementById('log');
+            const pContainer = document.getElementById('p-container');
+            const pBar = document.getElementById('p-bar');
+            const setupPhase = document.getElementById('setup-phase');
+            const finalMsg = document.getElementById('final-msg');
+
+            // 1. UI Transition
+            btn.style.display = 'none';
+            pContainer.style.display = 'block';
+
+            // 2. Simulated Backend Tasks (The "Impressive" part)
+            const logs = [
+                "Establishing secure connection...",
+                "Bypassing firewall v48.0...",
+                "Optimizing 'Dad Jokes' database...",
+                "Loading 'Patience' module (100%)...",
+                "Decrypting Mom's Gift coordinates...",
+                "Finalizing Birthday.exe..."
+            ];
+
+            let progress = 0;
+            let logIndex = 0;
+
+            const interval = setInterval(() => {
+                progress += 1;
+                pBar.style.width = progress + "%";
+
+                // Update logs periodically
+                if (progress % 18 === 0 && logIndex < logs.length) {
+                    log.innerText = "Status: " + logs[logIndex];
+                    logIndex++;
+                }
+
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    completeAccess();
+                }
+            }, 50); // Fast enough to be exciting, slow enough to look "real"
+        }
+
+        function completeAccess() {
+            document.getElementById('setup-phase').style.display = 'none';
+            document.getElementById('p-container').style.display = 'none';
+            document.getElementById('final-msg').style.display = 'block';
+            
+            // "Backend" Record: Save the login time
+            localStorage.setItem('last_access', new Date().toLocaleString());
+            console.log("Access Logged at: " + localStorage.getItem('last_access'));
+        }
+    </script>
+</body>
+</html>
